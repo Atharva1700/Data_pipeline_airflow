@@ -1,48 +1,50 @@
-Overview
-========
+# DATA PIPELINE WITH AIRFLOW
 
-Welcome to Astronomer! This project was generated after you ran 'astro dev init' using the Astronomer CLI. This readme describes the contents of the project, as well as how to run Apache Airflow on your local machine.
+A robust and modular data pipeline built using Apache Airflow. This project demonstrates how to orchestrate ETL (Extract, Transform, Load) processes using DAGs, enabling automated and scheduled data workflows with monitoring and logging features.
 
-Project Contents
-================
+## Table of Contents
 
-Your Astro project contains the following files and folders:
+- [Overview](#overview)
+- [How it Works](#how-it-works)
+- [Technologies Used](#technologies-used)
+- [Lessons Learned](#lessons-learned)
+- [Acknowledgements](#acknowledgements)
 
-- dags: This folder contains the Python files for your Airflow DAGs. By default, this directory includes one example DAG:
-    - `example_astronauts`: This DAG shows a simple ETL pipeline example that queries the list of astronauts currently in space from the Open Notify API and prints a statement for each astronaut. The DAG uses the TaskFlow API to define tasks in Python, and dynamic task mapping to dynamically print a statement for each astronaut. For more on how this DAG works, see our [Getting started tutorial](https://www.astronomer.io/docs/learn/get-started-with-airflow).
-- Dockerfile: This file contains a versioned Astro Runtime Docker image that provides a differentiated Airflow experience. If you want to execute other commands or overrides at runtime, specify them here.
-- include: This folder contains any additional files that you want to include as part of your project. It is empty by default.
-- packages.txt: Install OS-level packages needed for your project by adding them to this file. It is empty by default.
-- requirements.txt: Install Python packages needed for your project by adding them to this file. It is empty by default.
-- plugins: Add custom or community plugins for your project to this file. It is empty by default.
-- airflow_settings.yaml: Use this local-only file to specify Airflow Connections, Variables, and Pools instead of entering them in the Airflow UI as you develop DAGs in this project.
+## Overview
 
-Deploy Your Project Locally
-===========================
+This project showcases the implementation of a complete data pipeline using Apache Airflow. It is designed to extract data from a source, perform transformations, and load the processed data into a destination system (such as a database or a file system). The pipeline is built as a DAG (Directed Acyclic Graph) with tasks scheduled and executed in a defined sequence.
 
-1. Start Airflow on your local machine by running 'astro dev start'.
+The project highlights concepts such as task dependency, scheduling, retry logic, logging, and modular DAG design — all essential for production-ready data pipelines.
 
-This command will spin up 4 Docker containers on your machine, each for a different Airflow component:
+## How it Works
 
-- Postgres: Airflow's Metadata Database
-- Webserver: The Airflow component responsible for rendering the Airflow UI
-- Scheduler: The Airflow component responsible for monitoring and triggering tasks
-- Triggerer: The Airflow component responsible for triggering deferred tasks
+1. *Start Airflow*: Use Docker Compose or a virtual environment to launch the Airflow webserver and scheduler.
+2. *Pipeline Structure*:
+   - *Extract*: Fetch raw data from a data source (e.g., API, CSV file, database).
+   - *Transform*: Clean, validate, and reformat the data as needed.
+   - *Load*: Save the processed data into a target system or data warehouse.
+3. *Scheduling*: DAGs are scheduled to run at defined intervals (daily, hourly, etc.) or triggered manually.
+4. *Monitoring*: The Airflow UI provides real-time visualization of task status and logs.
+5. *Error Handling*: Includes retry policies and failure alerts for robust pipeline execution.
 
-2. Verify that all 4 Docker containers were created by running 'docker ps'.
+## Technologies Used
 
-Note: Running 'astro dev start' will start your project with the Airflow Webserver exposed at port 8080 and Postgres exposed at port 5432. If you already have either of those ports allocated, you can either [stop your existing Docker containers or change the port](https://www.astronomer.io/docs/astro/cli/troubleshoot-locally#ports-are-not-available-for-my-local-airflow-webserver).
+- *Python*: For defining task logic and Airflow operators
+- *Apache Airflow*: Core orchestration tool used for DAG scheduling and task management
+- *Docker (optional)*: To containerize and run Airflow environment
+- *Pandas*: For data transformation (if applicable)
+- *SQL / File Systems*: For data input/output destinations
 
-3. Access the Airflow UI for your local Airflow project. To do so, go to http://localhost:8080/ and log in with 'admin' for both your Username and Password.
+## Lessons Learned
 
-You should also be able to access your Postgres Database at 'localhost:5432/postgres'.
+Developing this project helped reinforce key data engineering concepts:
 
-Deploy Your Project to Astronomer
-=================================
+- *Workflow Orchestration*: Understanding Airflow DAGs, operators, and task dependencies
+- *Automation*: Scheduling repeatable workflows without manual intervention
+- *Monitoring & Debugging*: Using Airflow UI and logs for visibility into execution
+- *Error Recovery*: Implementing retries and task-level exception handling
+- *Modularity*: Structuring reusable and maintainable pipeline components
 
-If you have an Astronomer account, pushing code to a Deployment on Astronomer is simple. For deploying instructions, refer to Astronomer documentation: https://www.astronomer.io/docs/astro/deploy-code/
+## Acknowledgements
 
-Contact
-=======
-
-The Astronomer CLI is maintained with love by the Astronomer team. To report a bug or suggest a change, reach out to our support.
+Thanks to the open-source community and Apache Airflow documentation for guidance and inspiration. This project is a foundational step toward mastering scalable data engineering pipelines.
